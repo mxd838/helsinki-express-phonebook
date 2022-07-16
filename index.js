@@ -61,7 +61,21 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
 
-// app.post
+generateId = () => {
+    const maxId = userPhones.length > 0 ? Math.max(...userPhones.map(userphone => userphone.id)) :0
+    return maxId + 1
+}
+
+app.post('/api/persons', (request, response) =>{
+    const body = request.body
+    const userPhone = {
+        name: body.name,
+        number: body.number,
+        id: generateId()
+    }
+    userPhones = userPhones.concat(userPhone)
+    response.json(userPhone)
+})
 
 const PORT = 3001
 app.listen(PORT)
